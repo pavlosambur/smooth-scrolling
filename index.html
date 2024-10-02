@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Scroll Navigation Example</title>
+        <style>
+            body {
+                margin: 0;
+                font-family: Arial, sans-serif;
+                padding: 0;
+                line-height: 1.6;
+            }
+            .header {
+                position: fixed;
+                top: 0;
+                width: 100%;
+                background-color: #333;
+                color: white;
+                padding: 15px;
+                text-align: center;
+                transition: top 0.3s;
+                z-index: 1000;
+            }
+            .content {
+                padding: 100px 20px;
+            }
+            .section {
+                height: 800px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header" id="navbar">Navigation Block</div>
+
+        <div class="content">
+            <div class="section" style="background-color: #f4f4f4">
+                Section 1
+            </div>
+            <div class="section" style="background-color: #ddd">Section 2</div>
+            <div class="section" style="background-color: #bbb">Section 3</div>
+            <div class="section" style="background-color: #999">Section 4</div>
+        </div>
+
+        <script>
+            let lastScrollTop = 0;
+            let navbarHidden = false; // State: is the navigation block hidden
+            const navbar = document.getElementById("navbar");
+            const scrollThreshold = 50; // Scroll threshold for showing the navbar
+            const hideThreshold = 150; // Scroll threshold for hiding the navbar
+
+            window.addEventListener("scroll", function () {
+                let scrollTop =
+                    window.pageYOffset || document.documentElement.scrollTop;
+
+                // Check if scrolling down
+                if (scrollTop > lastScrollTop && scrollTop > hideThreshold) {
+                    // If scrolled down more than hideThreshold, hide the navbar
+                    navbar.style.top = "-60px";
+                    navbarHidden = true;
+                }
+                // Check if scrolling up
+                else if (scrollTop < lastScrollTop) {
+                    // If scrolled up more than scrollThreshold or Section 1 is visible, show the navbar
+                    if (
+                        lastScrollTop - scrollTop > scrollThreshold ||
+                        scrollTop < hideThreshold
+                    ) {
+                        navbar.style.top = "0";
+                        navbarHidden = false;
+                    }
+                }
+
+                lastScrollTop = scrollTop;
+            });
+        </script>
+    </body>
+</html>
